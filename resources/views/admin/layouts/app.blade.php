@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard</title>
+  <title>{{ config('app.name', 'SDLBLOG') }} | Dashboard</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -26,13 +26,20 @@
   <!-- summernote -->
   <link rel="stylesheet" href="{{asset('template/plugins/summernote/summernote-bs4.min.css')}}">
 
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{asset('template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+  <link rel="stylesheet" href="{{asset('template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+  <link rel="stylesheet" href="{{asset('template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+
+
+  @stack('css')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
   <!-- Preloader -->
   <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+    <img class="animation__shake" src="{{asset('assets/images/company_logo/company_logo.png')}}" alt="company Logo" height="60" width="60">
   </div>
 
   <!-- Navbar -->
@@ -138,7 +145,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="" class="brand-link">
-      <img src="{{asset('template/dist/img/AdminLTELogo.png')}}" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img src="{{asset('assets/images/company_logo/company_logo.png')}}" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">SDL BLOG</span>
     </a>
 
@@ -167,106 +174,68 @@
       </div>
 
       <!-- Sidebar Menu -->
+      <?php
+        if(!isset($pageSlug))
+            $pageSlug = request()->route()->getName();
+      ?>
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
+          @php
+            $dashboardRoutes = ['admin.dashboard'];
+          @endphp
+          <li class="nav-item">
+            <a href="{{route('admin.dashboard')}}" class="nav-link {{in_array($pageSlug, $dashboardRoutes)?'active':''}}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
-                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="./index.html" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v1</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index2.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index3.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v3</p>
-                </a>
-              </li>
-            </ul>
           </li>
+
+          @php
+            $languageRoutes = ['languages.index', 'languages.create', 'languages.edit'];
+          @endphp
           <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
+            <a href="{{route('languages.index')}}" class="nav-link {{in_array($pageSlug, $languageRoutes)?'active':''}}">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Widgets
-                <span class="right badge badge-danger">New</span>
+                Language
+              </p>
+            </a>
+          </li>
+          @php
+            $catagoryRoutes = ['catagories.index', 'catagories.create', 'catagories.edit'];
+          @endphp
+          <li class="nav-item">
+            <a href="{{route('admin.dashboard')}}" class="nav-link {{in_array($pageSlug, $catagoryRoutes)?'active':''}}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Catagory
               </p>
             </a>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-copy"></i>
+              <i class="nav-icon fab fa-blogger"></i>
               <p>
-                Layout Options
+                Comments
                 <i class="fas fa-angle-left right"></i>
-                <span class="badge badge-info right">6</span>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="pages/layout/top-nav.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Top Navigation</p>
+                  <p>Pending Comments</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
+                <a href="pages/layout/top-nav.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Top Navigation + Sidebar</p>
+                  <p>Approved Comments</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="pages/layout/boxed.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Boxed</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/layout/fixed-sidebar.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fixed Sidebar</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/layout/fixed-sidebar-custom.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fixed Sidebar <small>+ Custom Area</small></p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/layout/fixed-topnav.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fixed Navbar</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/layout/fixed-footer.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fixed Footer</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Collapsed Sidebar</p>
-                </a>
-              </li>
+
             </ul>
           </li>
           <li class="nav-item">
@@ -874,5 +843,21 @@
 <script src="{{asset('template/dist/js/demo.js')}}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{asset('template/dist/js/pages/dashboard.js')}}"></script>
+
+<!-- DataTables  & Plugins -->
+<script src="{{asset('template/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{asset('template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{asset('template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+<script src="{{asset('template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{asset('template/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
+<script src="{{asset('template/plugins/jszip/jszip.min.js')}}"></script>
+<script src="{{asset('template/plugins/pdfmake/pdfmake.min.js')}}"></script>
+<script src="{{asset('template/plugins/pdfmake/vfs_fonts.js')}}"></script>
+<script src="{{asset('template/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
+<script src="{{asset('template/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
+<script src="{{asset('template/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+
+@stack('script')
 </body>
 </html>
