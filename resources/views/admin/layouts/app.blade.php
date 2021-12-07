@@ -207,7 +207,7 @@
             $catagoryRoutes = ['catagories.index', 'catagories.create', 'catagories.edit'];
           @endphp
           <li class="nav-item">
-            <a href="{{route('admin.dashboard')}}" class="nav-link {{in_array($pageSlug, $catagoryRoutes)?'active':''}}">
+            <a href="{{route('catagories.index')}}" class="nav-link {{in_array($pageSlug, $catagoryRoutes)?'active':''}}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Catagory

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SdlblogCatagory;
+use App\Models\SdlblogLanguage;
 use Illuminate\Http\Request;
 
 class SdlblogCatagoryController extends Controller
@@ -15,6 +16,7 @@ class SdlblogCatagoryController extends Controller
     public function index()
     {
         $catagories = SdlblogCatagory::all();
+        return view('admin.catagory.index', compact('catagories'));
     }
 
     /**
@@ -24,7 +26,8 @@ class SdlblogCatagoryController extends Controller
      */
     public function create()
     {
-        //
+        $languages = SdlblogLanguage::where('status', 1)->get();
+        return view('admin.catagory.create',compact('languages'));
     }
 
     /**
@@ -43,6 +46,7 @@ class SdlblogCatagoryController extends Controller
 
         $postData = $request->only(['name', 'slug', 'description', 'language_id']);
         $catagory = SdlblogCatagory::create($postData);
+        return redirect()->route('catagories.index')->with('success','Data Added Successfully!');
     }
 
     /**
@@ -62,9 +66,13 @@ class SdlblogCatagoryController extends Controller
      * @param  \App\Models\SdlblogCatagory  $sdlblogCatagory
      * @return \Illuminate\Http\Response
      */
-    public function edit(SdlblogCatagory $sdlblogCatagory)
+    public function edit($id)
     {
-        //
+        $catagory = SdlblogCatagory::find($id);
+        $languages = SdlblogLanguage::where('status', 1)->get();
+        $data['catagory'] = $catagory;
+        $data['languages'] = $languages;
+        return view('admin.catagory.edit', $data);
     }
 
     /**
@@ -74,16 +82,18 @@ class SdlblogCatagoryController extends Controller
      * @param  \App\Models\SdlblogCatagory  $sdlblogCatagory
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SdlblogCatagory $sdlblogCatagory)
+    public function update(Request $request, $id)
     {
+        $catagory = SdlblogCatagory::find($id);
         $request->validate([
             'name' => 'bail|required|max:60',
-            'slug' => 'bail|required|string|unique:sdlblog_catagories',
+            'slug' => 'bail|required|unique:sdlblog_catagories,slug,'.$catagory->id,
             'language_id' => 'required',
         ]);
 
         $postData = $request->only(['name', 'slug', 'description', 'language_id']);
-        $sdlblogCatagory->update($postData);
+        $catagory->update($postData);
+        return redirect()->route('catagories.index')->with('success','Data Updated Successfully!');
     }
 
     /**
@@ -92,8 +102,10 @@ class SdlblogCatagoryController extends Controller
      * @param  \App\Models\SdlblogCatagory  $sdlblogCatagory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SdlblogCatagory $sdlblogCatagory)
+    public function destroy($id)
     {
-        $sdlblogCatagory->delete();
+        $catagory = SdlblogCatagory::find($id);
+        $catagory->delete();
+        return redirect()->route('catagories.index')->with('success','Data Deleted Successfully!');
     }
 }
