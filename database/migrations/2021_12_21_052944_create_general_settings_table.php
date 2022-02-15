@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSdlblogPostTagsTable extends Migration
+class CreateGeneralSettingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,16 @@ class CreateSdlblogPostTagsTable extends Migration
      */
     public function up()
     {
-        Schema::create('sdlblog_post_tags', function (Blueprint $table) {
+        Schema::create('general_settings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("post_id");
-            $table->string("keyword");
+            $table->string("site_name")->nullable();
+            $table->string("logo")->nullable();
+            $table->string("facebook_link")->nullable();
+            $table->string("twitter_link")->nullable();
             $table->timestamps();
         });
+
+        
     }
 
     /**
@@ -28,6 +32,6 @@ class CreateSdlblogPostTagsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sdlblog_post_tags');
+        Schema::dropIfExists('general_settings');
     }
 }

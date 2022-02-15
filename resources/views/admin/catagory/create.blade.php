@@ -101,9 +101,7 @@
         $("#name").keyup(function(){
             $value = $(this).val();
             if($value!==""){
-                $value = $value.toLowerCase()
-                        .replace(/ /g, '-')
-                        .replace(/[^\w-]+/g, '') + "-" + Math.floor(Math.random() * 101);    
+                $value = $value.replace(/ /g, '-') + "-" + Math.floor(Math.random() * 101);  
             }
             
             $("#slug").val($value); 

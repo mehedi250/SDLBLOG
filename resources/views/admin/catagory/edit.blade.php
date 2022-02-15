@@ -62,7 +62,7 @@
                         <select class="custom-select form-control-border" id="language_id" name="language_id">
                           <option value=""  disabled>Select Blog Language</option>
                           @foreach ($languages as $language)
-                             <option value="{{$language->id}}" @if ($catagory->language_id === $language->id) selected @endif>{{$language->name}}</option> 
+                            <option value="{{$language->id}}" @if ($catagory->language_id === $language->id) selected @endif>{{$language->name}}</option> 
                           @endforeach
                         </select>
                         @error('language_id') 
@@ -102,9 +102,7 @@
         $("#name").keyup(function(){
             $value = $(this).val();
             if($value!==""){
-                $value = $value.toLowerCase()
-                        .replace(/ /g, '-')
-                        .replace(/[^\w-]+/g, '') + "-" + Math.floor(Math.random() * 101);    
+                $value = $value.replace(/ /g, '-') + "-" + Math.floor(Math.random() * 101); 
             }
             
             $("#slug").val($value); 

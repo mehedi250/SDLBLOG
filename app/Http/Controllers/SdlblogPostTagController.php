@@ -78,8 +78,10 @@ class SdlblogPostTagController extends Controller
      * @param  \App\Models\SdlblogPostTag  $sdlblogPostTag
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SdlblogPostTag $sdlblogPostTag)
+    public function destroy($id)
     {
-        //
+        $sdlblogPostTag = SdlblogPostTag ::find($id);
+        $sdlblogPostTag->delete();
+        return redirect()->back()->with('success','Tag Deleted Successfully!');
     }
 }
